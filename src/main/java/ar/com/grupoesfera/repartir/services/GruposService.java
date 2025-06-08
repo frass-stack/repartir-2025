@@ -59,6 +59,10 @@ public class GruposService {
             logger.warn("Validación fallida: El nombre del grupo tiene menos de 2 caracteres");
             throw new GrupoInvalidoException(GrupoInvalidoException.CodigoError.NOMBRE_INVALIDO);
         }
+        if (repository.findByNombreIgnoreCase(nuevoGrupo.getNombre()).isPresent()) {
+            logger.warn("Validación fallida: Ya existe un grupo con ese nombre");
+            throw new GrupoInvalidoException(GrupoInvalidoException.CodigoError.NOMBRE_DUPLICADO);
+        }
     }
 
     public Grupo recuperar(Long id) {

@@ -16,7 +16,8 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseEntity<Map<String, String>> handleGrupoInvalidoException(GrupoInvalidoException ex) {
         Map<String, String> response = new HashMap<>();
-        response.put("mensaje", "El nombre del grupo debe tener al menos 2 caracteres.");
+        response.put("mensaje", ex.getCodigoError().getMensaje());
+        response.put("error", ex.getCodigoError().name());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 } 

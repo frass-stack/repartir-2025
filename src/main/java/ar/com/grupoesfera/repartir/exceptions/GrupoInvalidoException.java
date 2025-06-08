@@ -15,7 +15,8 @@ public class GrupoInvalidoException extends RuntimeException {
     public enum CodigoError {
         MIEMBROS_INSUFICIENTES("El grupo debe estar formado por al menos 2 miembros"),
         NOMBRE_INCOMPLETO("El grupo debe tener un nombre"),
-        NOMBRE_INVALIDO("El nombre del grupo debe tener al menos 2 caracteres");
+        NOMBRE_INVALIDO("El nombre del grupo debe tener al menos 2 caracteres"),
+        NOMBRE_DUPLICADO("Ya existe un grupo con ese nombre.");
 
         private final String mensaje;
         
