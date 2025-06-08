@@ -1,14 +1,8 @@
-#!/usr/bin/env sh
+#!/bin/bash
 
-FRONTEND="./src/main/frontend"
-
-cd "$FRONTEND"
-
-if [ $? -ne 0 ]; then
-    echo "Error: No se pudo cambiar al directorio $FRONTEND"
-    exit 1
-fi
-
+cd src/main/frontend
+npm install --no-symlinks
+npm run build
 npm run start
 
 # Verificar si npm run start se ejecutó correctamente
