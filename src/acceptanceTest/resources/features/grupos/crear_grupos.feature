@@ -8,6 +8,11 @@ Característica: Crear Grupo para repartir gastos
       Cuando el usuario crea un grupo indicando el nombre 'Regalo de navidad'
       Entonces debería visualizar dentro del listado el grupo con el nombre indicado
 
+    Escenario: No se puede crear un grupo con un nombre ya existente
+      Dado que existe un grupo llamado "Viaje al sur"
+      Cuando intento crear un grupo con el nombre "Viaje al sur"
+      Entonces debería ser informado que ya existe un grupo con ese nombre
+
     @pendiente
     Escenario: No puede crear un grupo sin nombre
       Dado que el usuario inició Repartir
