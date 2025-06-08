@@ -7,6 +7,8 @@ import ar.com.grupoesfera.repartir.model.Gasto;
 import ar.com.grupoesfera.repartir.model.Grupo;
 import ar.com.grupoesfera.repartir.repositories.GruposRepository;
 import org.apache.logging.log4j.util.Strings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ import java.util.Optional;
 
 @Service
 public class GruposService {
+
+    private static final Logger logger = LoggerFactory.getLogger(GruposService.class);
 
     @Autowired
     GruposRepository repository;
@@ -28,10 +32,11 @@ public class GruposService {
     }
 
     public Grupo crear(Grupo nuevoGrupo) {
-
+        logger.info("Intentando crear grupo con nombre: '{}' y miembros: {}", nuevoGrupo.getNombre(), nuevoGrupo.getMiembros());
         validar(nuevoGrupo);
+        logger.info("Validación exitosa para el grupo: '{}'", nuevoGrupo.getNombre());
         guardar(nuevoGrupo);
-
+        logger.info("Grupo guardado: '{}'", nuevoGrupo.getNombre());
         return nuevoGrupo;
     }
 
@@ -41,12 +46,18 @@ public class GruposService {
     }
 
     private void validar(Grupo nuevoGrupo) {
+        logger.info("Validando grupo con nombre: '{}' y miembros: {}", nuevoGrupo.getNombre(), nuevoGrupo.getMiembros());
         if (!nuevoGrupo.estaFormado()) {
+            logger.warn("Validación fallida: El grupo no tiene suficientes miembros");
             throw new GrupoInvalidoException(GrupoInvalidoException.CodigoError.MIEMBROS_INSUFICIENTES);
         }
-
         if (Strings.isBlank(nuevoGrupo.getNombre())) {
+            logger.warn("Validación fallida: El grupo no tiene nombre");
             throw new GrupoInvalidoException(GrupoInvalidoException.CodigoError.NOMBRE_INCOMPLETO);
+        }
+        if (nuevoGrupo.getNombre().length() < 2) {
+            logger.warn("Validación fallida: El nombre del grupo tiene menos de 2 caracteres");
+            throw new GrupoInvalidoException(GrupoInvalidoException.CodigoError.NOMBRE_INVALIDO);
         }
     }
 

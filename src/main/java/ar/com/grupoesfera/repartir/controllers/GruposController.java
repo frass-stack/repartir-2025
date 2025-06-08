@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.http.HttpStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +28,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/grupos")
 public class GruposController {
+
+    private static final Logger logger = LoggerFactory.getLogger(GruposController.class);
 
     private GruposService grupos;
 
@@ -50,7 +56,9 @@ public class GruposController {
 
     @PostMapping
     public ResponseEntity<Grupo> crear(@RequestBody Grupo grupo) {
+        logger.info("Petición para crear grupo: '{}' con miembros: {}", grupo.getNombre(), grupo.getMiembros());
         Grupo creado = grupos.crear(grupo);
+        logger.info("Grupo creado exitosamente: '{}'", grupo.getNombre());
         return ResponseEntity.ok(creado);
     }
 
@@ -85,5 +93,13 @@ public class GruposController {
 
         return response;
     }
-    
+
+    @ExceptionHandler(GrupoInvalidoException.class)
+    public ResponseEntity<Map<String, String>> manejarGrupoInvalido(GrupoInvalidoException ex) {
+        logger.warn("Error de validación al crear grupo: {}", ex.getMessage());
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getCodigoError().name());
+        error.put("mensaje", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
 }

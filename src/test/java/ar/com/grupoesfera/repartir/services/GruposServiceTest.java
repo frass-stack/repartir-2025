@@ -86,6 +86,21 @@ class GruposServiceTest {
         verifyNoInteractions(repositoryMock);
     }
 
+    @Test
+    void crearGrupoLanzaExcepcionSiElNombreTieneMenosDeDosCaracteres() {
+        Grupo grupoInvalidoNombreCorto = new Grupo();
+        grupoInvalidoNombreCorto.setNombre("A");
+        grupoInvalidoNombreCorto.setMiembros(asList("patricia", "guille"));
+
+        GrupoInvalidoException exception = assertThrows(GrupoInvalidoException.class, () -> {
+            grupos.crear(grupoInvalidoNombreCorto);
+        });
+    
+        assertEquals(GrupoInvalidoException.CodigoError.NOMBRE_INVALIDO, exception.getCodigoError());
+    
+        verifyNoInteractions(repositoryMock);
+    }
+
     
     @Test
     void recuperarGrupoPorId() {
