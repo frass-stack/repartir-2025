@@ -67,6 +67,13 @@ export class GruposPlaywrightDriver implements GruposDriver {
     );
   };
 
+  validarGrupoNoExiste = async (nombre: string): Promise<void> => {
+    const grupoFila = await this.page.locator("app-grupos table tr", {
+      hasText: nombre,
+    });
+    await expect(grupoFila).toHaveCount(0);
+  };
+
   validarMiembrosDeGrupo = async (grupo: Grupo): Promise<void> => {
     let row = this.page
       .locator(

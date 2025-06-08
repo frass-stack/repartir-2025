@@ -59,10 +59,11 @@ export class GrupoNuevoComponent implements OnInit {
   }
 
   private guardadoFallido(error: any): void {
+    console.log('Error recibido en guardadoFallido:', error);
     this.messageService.add({
       severity: 'error',
       summary: 'Error',
-      detail: error.mensaje,
+      detail: error?.mensaje || 'Error desconocido al crear el grupo',
     });
   }
 }

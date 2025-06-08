@@ -60,6 +60,13 @@ Then(
 );
 
 Then(
+  "no debería visualizar dentro del listado el grupo con el nombre indicado",
+  async ({ assembly, world}) => {
+    await assembly.grupos.validarGrupoNoExiste(world.grupo.nombre);
+  }
+);
+
+Then(
   "visualiza dentro del listado el grupo con los miembros indicados",
   async ({ assembly, world }) => {
     await assembly.grupos.validarMiembrosDeGrupo(world.grupo);

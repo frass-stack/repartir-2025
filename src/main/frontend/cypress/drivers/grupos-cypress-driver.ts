@@ -39,6 +39,14 @@ export class GruposCypressDriver implements GruposDriver {
         })
     }
 
+    async validarGrupoNoExiste(nombre: string): Promise<void> {
+        cy.get('table tbody tr').filter((_, element) => {
+            return Cypress.$(element).text().includes(nombre);
+        }).then((grupoEncontrado) => {
+            expect(grupoEncontrado).to.not.exist;
+        })
+    }
+
     async validarMiembrosDeGrupo(grupo: Grupo): Promise<void> {
         cy.get('table tbody tr').filter((_, element) => {
             return Cypress.$(element).text().includes(grupo.nombre);

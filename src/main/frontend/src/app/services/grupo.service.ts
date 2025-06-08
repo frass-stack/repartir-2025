@@ -43,7 +43,8 @@ export class GrupoService {
   }
 
   falloAlGuardar(error: HttpErrorResponse) {
-    return throwError(new Excepcion(error.error));
+    const mensaje = error.error?.mensaje || "Error desconocido al crear el grupo";
+    return throwError(new Excepcion(mensaje));
   }
 
   falloAlListar(error: HttpErrorResponse) {

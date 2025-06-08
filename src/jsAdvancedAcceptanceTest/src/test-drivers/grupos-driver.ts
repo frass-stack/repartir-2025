@@ -5,7 +5,8 @@ export interface GruposDriver {
   crearGrupo(nombre: string, miembros: Array<string>): Promise<Grupo>;
   crearConUnUnicoMiembro(): Promise<void>;
   validarNombreDeGrupo(grupo: Grupo): Promise<void>;
+  validarGrupoNoExiste(nombre: string): Promise<void>;
   validarMiembrosDeGrupo(grupo: Grupo): Promise<void>;
   validarMensajeDeAlMenosDosMiembros(): Promise<void>;
   validarMontoTotal(montoEsperado: string, grupo:Grupo): Promise<void>;
-  }
+}
