@@ -2,6 +2,7 @@ package ar.com.grupoesfera.repartir.steps.grupos;
 
 import ar.com.grupoesfera.repartir.steps.CucumberSteps;
 import io.cucumber.java.es.Cuando;
+import io.cucumber.java.es.Dado;
 import io.cucumber.java.es.Entonces;
 import io.cucumber.java.es.Y;
 import org.openqa.selenium.By;
@@ -88,4 +89,61 @@ public class NombreQueLosIdentificaSteps extends CucumberSteps {
         shouldShowAnError("No se puede guardar");
     }
 
+    @Dado("que existe un grupo llamado {string}")
+    public void que_existe_un_grupo_llamado(String nombre) {
+        // Crea el grupo usando la UI o directamente en la base de datos (según tu framework de test)
+        // Ejemplo usando la UI:
+        var wait = new WebDriverWait(driver, Duration.of(2, ChronoUnit.SECONDS));
+        var crearGruposButton = wait.until(elementToBeClickable(By.id("crearGruposButton")));
+        crearGruposButton.click();
+
+        driver.findElement(By.id("nombreGrupoNuevoInput")).sendKeys(nombre);
+
+        var miembrosInput = driver.findElement(By.id("miembrosGrupoNuevoInput"));
+        miembrosInput.sendKeys("Victor");
+        miembrosInput.sendKeys(Keys.ENTER);
+        miembrosInput.sendKeys("Brenda");
+        miembrosInput.sendKeys(Keys.ENTER);
+
+        driver.findElement(By.id("guardarGrupoNuevoButton")).click();
+
+        wait.until(visibilityOfElementLocated(By.id("mensajesToast")));
+    }
+
+    @Cuando("intento crear un grupo con el nombre {string}")
+    public void intento_crear_un_grupo_con_el_nombre(String nombre) {
+        // Intenta crear el grupo duplicado usando la UI
+        var wait = new WebDriverWait(driver, Duration.of(2, ChronoUnit.SECONDS));
+        var crearGruposButton = wait.until(elementToBeClickable(By.id("crearGruposButton")));
+        crearGruposButton.click();
+
+        driver.findElement(By.id("nombreGrupoNuevoInput")).sendKeys(nombre);
+
+        var miembrosInput = driver.findElement(By.id("miembrosGrupoNuevoInput"));
+        miembrosInput.sendKeys("Oscar");
+        miembrosInput.sendKeys(Keys.ENTER);
+        miembrosInput.sendKeys("Laura");
+        miembrosInput.sendKeys(Keys.ENTER);
+
+        driver.findElement(By.id("guardarGrupoNuevoButton")).click();
+
+        wait.until(visibilityOfElementLocated(By.id("mensajesToast")));
+    }
+
+    @Entonces("debería ser informado que ya existe un grupo con ese nombre")
+    public void deberia_ser_informado_que_ya_existe_un_grupo_con_ese_nombre() {
+        var wait = new WebDriverWait(driver, Duration.of(2, ChronoUnit.SECONDS));
+        var mensajesToast = wait.until(visibilityOfElementLocated(By.id("mensajesToast")));
+        String texto = mensajesToast.getText();
+        assertThat(texto).contains("Ya existe un grupo con ese nombre");
+    }
+
+    @Entonces("debería ser informado que el nombre del grupo debe tener al menos {int} caracteres")
+    public void deberia_ser_informado_que_el_nombre_del_grupo_debe_tener_al_menos_caracteres(Integer cantidad) {
+        var wait = new WebDriverWait(driver, Duration.of(2, ChronoUnit.SECONDS));
+        var mensajesToast = wait.until(visibilityOfElementLocated(By.id("mensajesToast")));
+        String texto = mensajesToast.getText();
+        assertThat(texto).contains("El nombre del grupo debe tener al menos " + cantidad + " caracteres");
+    }
+    
 }
