@@ -61,8 +61,6 @@ public class CrearGrupoJourneySteps extends CucumberSteps {
 
     @Step("no existe ningún grupo")
     public void noExisteNingunGrupo() {
-        // Aquí podrías limpiar la base de datos o asegurarte de que no haya grupos
-        // Por simplicidad, no hacemos nada (o podrías implementar lógica específica)
     }
 
     @Step("el usuario selecciona crear grupo")
@@ -104,7 +102,6 @@ public class CrearGrupoJourneySteps extends CucumberSteps {
 
     @Step("existe un grupo")
     public void existeUnGrupo() {
-        // Puedes crear un grupo por defecto aquí si es necesario
         elUsuarioSeleccionaCrearGrupo();
         completaConElNombre("Grupo por defecto");
         indicaQueLosMiembrosSon("Ana", "Luis", "Pedro");
@@ -125,11 +122,9 @@ public class CrearGrupoJourneySteps extends CucumberSteps {
         }
         assertThat(filaGrupo).isNotNull();
 
-        // Hacer clic en el botón de agregar gasto (asumiendo que es el último botón de la fila)
         WebElement botonAgregarGasto = filaGrupo.findElement(By.cssSelector("button"));
         botonAgregarGasto.click();
 
-        // Completar el monto y guardar
         WebElement inputMonto = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("montoGastoNuevoInput")));
         inputMonto.clear();
         inputMonto.sendKeys(monto);
@@ -137,7 +132,6 @@ public class CrearGrupoJourneySteps extends CucumberSteps {
         WebElement botonGuardar = driver.findElement(By.id("guardarGastoNuevoButton"));
         botonGuardar.click();
 
-        // Esperar a que el toast de éxito aparezca
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("mensajesToast")));
     }
 

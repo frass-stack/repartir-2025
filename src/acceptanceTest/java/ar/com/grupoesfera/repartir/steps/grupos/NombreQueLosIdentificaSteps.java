@@ -91,8 +91,6 @@ public class NombreQueLosIdentificaSteps extends CucumberSteps {
 
     @Dado("que existe un grupo llamado {string}")
     public void que_existe_un_grupo_llamado(String nombre) {
-        // Crea el grupo usando la UI o directamente en la base de datos (según tu framework de test)
-        // Ejemplo usando la UI:
         var wait = new WebDriverWait(driver, Duration.of(2, ChronoUnit.SECONDS));
         var crearGruposButton = wait.until(elementToBeClickable(By.id("crearGruposButton")));
         crearGruposButton.click();
@@ -112,7 +110,6 @@ public class NombreQueLosIdentificaSteps extends CucumberSteps {
 
     @Cuando("intento crear un grupo con el nombre {string}")
     public void intento_crear_un_grupo_con_el_nombre(String nombre) {
-        // Intenta crear el grupo duplicado usando la UI
         var wait = new WebDriverWait(driver, Duration.of(2, ChronoUnit.SECONDS));
         var crearGruposButton = wait.until(elementToBeClickable(By.id("crearGruposButton")));
         crearGruposButton.click();
