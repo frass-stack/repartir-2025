@@ -48,6 +48,11 @@ public class GruposService {
         if (Strings.isBlank(nuevoGrupo.getNombre())) {
             throw new GrupoInvalidoException(GrupoInvalidoException.CodigoError.NOMBRE_INCOMPLETO);
         }
+
+        // Validar que el nombre no esté repetido
+        if (repository.existsByNombre(nuevoGrupo.getNombre())) {
+            throw new GrupoInvalidoException(GrupoInvalidoException.CodigoError.NOMBRE_REPETIDO);
+        }
     }
 
     public Grupo recuperar(Long id) {
