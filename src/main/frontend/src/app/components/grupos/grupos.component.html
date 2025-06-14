@@ -17,8 +17,10 @@
         <td>
           <p-chip *ngFor="let miembro of grupo.miembros" [label]="miembro" icon="pi pi-user" styleClass="m-1"></p-chip>
         </td>
-        <td>
+        <td class="text-center">
           <p-button [id]="'agregarGastoGruposButton-' + grupo.id" icon="pi pi-plus" (onClick)="agregarGasto(grupo)" styleClass="p-button-secondary p-button-rounded"></p-button>
+
+          <p-button [id]="'editarGrupoButton-' + grupo.id" icon="pi pi-pencil" (onClick)="editarNombre(grupo)" styleClass="p-button-warning p-button-rounded"></p-button>
         </td>
       </tr>
     </ng-template>

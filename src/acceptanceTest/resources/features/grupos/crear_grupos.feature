@@ -35,3 +35,11 @@ Característica: Crear Grupo para repartir gastos
       Cuando el usuario crea un grupo
       Entonces debería visualiza dentro del listado el grupo creado con total '$  0,00'
 
+  Regla: Editar el nombre de un grupo existente
+
+    Escenario: Cambiar nombre de un grupo
+      Dado que el usuario inició Repartir
+      Y existe un grupo con nombre "Viaje a Bariloche" indicando que sus miembros son "Juan" y "Pedro"
+      Cuando el usuario edita el nombre de ese grupo a "Vacaciones de Invierno"
+      Entonces debería visualizar dentro del listado el grupo con nombre "Vacaciones de Invierno"
+

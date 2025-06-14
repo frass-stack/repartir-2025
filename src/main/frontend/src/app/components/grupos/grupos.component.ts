@@ -52,6 +52,10 @@ export class GruposComponent implements OnInit, AfterViewInit {
     this.gastoNuevo.iniciarPara(grupo);
   }
 
+  editarNombre(grupo: Grupo): void {
+    this.grupoNuevo.iniciarEdicion(grupo);
+  }
+
   private listadoFallido(error: any): void {
 
     this.messageService.add({

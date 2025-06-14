@@ -11,6 +11,8 @@ import { Gasto } from '../model/gasto';
 })
 export class GrupoService {
 
+  private baseUrl = '/api/grupos';
+
   constructor(private http: HttpClient) {
 
   }
@@ -48,5 +50,11 @@ export class GrupoService {
 
   falloAlListar(error: HttpErrorResponse) {
     return throwError(new Excepcion("No se pueden listar los Grupos"));
+  }
+
+  actualizar(id: number, nombre: string, miembros: string[]): Observable<Grupo> {
+    const payload = { nombre, miembros };
+    return this.http.put<Grupo>(`${this.baseUrl}/${id}`, payload)
+      .pipe(catchError(this.falloAlGuardar));
   }
 }

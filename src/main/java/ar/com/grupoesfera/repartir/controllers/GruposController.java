@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -84,6 +85,16 @@ public class GruposController {
         response = ResponseEntity.ok(grupo);
 
         return response;
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Grupo> actualizarNombre(@PathVariable Long id,
+            @RequestBody Grupo grupoRequest) {
+                Grupo actualizado = grupos.editarNombre(
+            id,
+            grupoRequest.getNombre()
+        );
+        return ResponseEntity.ok(actualizado);
     }
     
 }

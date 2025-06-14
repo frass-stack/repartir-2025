@@ -49,7 +49,6 @@ public class GruposService {
             throw new GrupoInvalidoException(GrupoInvalidoException.CodigoError.NOMBRE_INCOMPLETO);
         }
 
-        // Validar que el nombre no esté repetido
         if (repository.existsByNombre(nuevoGrupo.getNombre())) {
             throw new GrupoInvalidoException(GrupoInvalidoException.CodigoError.NOMBRE_REPETIDO);
         }
@@ -72,6 +71,18 @@ public class GruposService {
         montos.acumularAlTotal(grupo, gasto);
         repository.save(grupo);
         return grupo;
+    }
+
+    public Grupo editarNombre(Long id, String nuevoNombre) {
+        Grupo g = recuperar(id);
+        if (Strings.isBlank(nuevoNombre)) {
+            throw new GrupoInvalidoException(GrupoInvalidoException.CodigoError.NOMBRE_INCOMPLETO);
+        }
+        if (!g.getNombre().equals(nuevoNombre) && repository.existsByNombre(nuevoNombre)) {
+            throw new GrupoInvalidoException(GrupoInvalidoException.CodigoError.NOMBRE_REPETIDO);
+        }
+        g.setNombre(nuevoNombre);
+        return repository.save(g);
     }
 
 }

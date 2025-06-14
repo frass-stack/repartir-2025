@@ -35,16 +35,39 @@ export class GrupoNuevoComponent implements OnInit {
     this.mostrar = true;
   }
 
-  guardar(): void {
-    this.grupoService.crear(this.nombre, this.miembros).subscribe(
-      grupo => this.guardadoExitoso(grupo),
-      error => this.guardadoFallido(error)
-    );
-  }
+  // guardar(): void {
+  //   this.grupoService.crear(this.nombre, this.miembros).subscribe(
+  //     grupo => this.guardadoExitoso(grupo),
+  //     error => this.guardadoFallido(error)
+  //   );
+  // }
 
   cancelar(): void {
 
     this.mostrar = false;
+  }
+
+  iniciarEdicion(grupo: Grupo): void {
+    this.nombre = grupo.nombre;
+    this.miembros = grupo.miembros ? [...grupo.miembros] : [];
+    this.grupoEditandoId = grupo.id;
+    this.mostrar = true;
+  }
+
+  grupoEditandoId?: number;
+
+  guardar(): void {
+    if (this.grupoEditandoId != null) {
+      this.grupoService.actualizar(this.grupoEditandoId, this.nombre, this.miembros).subscribe(
+        grupo => this.guardadoExitoso(grupo),
+        error => this.guardadoFallido(error)
+      );
+    } else {
+      this.grupoService.crear(this.nombre, this.miembros).subscribe(
+        grupo => this.guardadoExitoso(grupo),
+        error => this.guardadoFallido(error)
+      );
+    }
   }
 
   private guardadoExitoso(grupo: Grupo):void {
