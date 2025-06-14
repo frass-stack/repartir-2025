@@ -49,7 +49,7 @@ public class GruposService {
             throw new GrupoInvalidoException(GrupoInvalidoException.CodigoError.NOMBRE_INCOMPLETO);
         }
 
-        if (repository.existsByNombre(nuevoGrupo.getNombre())) {
+        if (repository.existsByNombreIgnoreCase(nuevoGrupo.getNombre())) {
             throw new GrupoInvalidoException(GrupoInvalidoException.CodigoError.NOMBRE_REPETIDO);
         }
     }
@@ -78,7 +78,7 @@ public class GruposService {
         if (Strings.isBlank(nuevoNombre)) {
             throw new GrupoInvalidoException(GrupoInvalidoException.CodigoError.NOMBRE_INCOMPLETO);
         }
-        if (!g.getNombre().equals(nuevoNombre) && repository.existsByNombre(nuevoNombre)) {
+        if (!g.getNombre().equalsIgnoreCase(nuevoNombre) && repository.existsByNombreIgnoreCase(nuevoNombre)) {
             throw new GrupoInvalidoException(GrupoInvalidoException.CodigoError.NOMBRE_REPETIDO);
         }
         g.setNombre(nuevoNombre);
